@@ -3,7 +3,6 @@ lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 require 'shoes/highlighter/version'
-require File.expand_path(File.join(__FILE__, "..", "..", "manifests", "shoes-highlighter"))
 
 Gem::Specification.new do |s|
   s.name          = "shoes-highlighter"
@@ -16,8 +15,8 @@ Gem::Specification.new do |s|
   s.description = 'A syntax highlighting library used by Shoes. Originally extracted from Hackety-Hack.'
   s.license     = 'MIT'
 
-  s.files         = ShoesHighlighterManifest.files
-  s.test_files    = ShoesHighlighterManifest.test_files
+  s.files         = `git ls-files`.split($/)
+  s.test_files    = s.files.grep(%r{^(test|spec|features)/})
   s.require_paths = ["lib"]
 
   s.add_development_dependency "bundler", "~> 1.7"
