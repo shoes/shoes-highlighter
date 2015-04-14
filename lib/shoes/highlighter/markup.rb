@@ -5,25 +5,25 @@ class Shoes
     module Markup
       TOKENIZER = Shoes::Highlighter::Syntax.load "ruby"
       COLORS = {
-        comment: { stroke: "#887" },
-        keyword: { stroke: "#111" },
-        method: { stroke: "#C09", weight: "bold" },
-        # :class => {:stroke => "#0c4", :weight => "bold"},
-        # :module => {:stroke => "#050"},
-        # :punct => {:stroke => "#668", :weight => "bold"},
-        symbol: { stroke: "#C30" },
-        string: { stroke: "#C90" },
-        number: { stroke: "#396" },
-        regex: { stroke: "#000", fill: "#FFC" },
-        # :char => {:stroke => "#f07"},
-        attribute: { stroke: "#369" },
-        # :global => {:stroke => "#7FB" },
-        expr: { stroke: "#722" },
-        # :escape => {:stroke => "#277" }
-        ident: { stroke: "#994c99" },
-        constant: { stroke: "#630", weight: "bold" },
-        class: { stroke: "#630", weight: "bold" },
-        matching: { stroke: "#ff0", weight: "bold" },
+          comment: { stroke: "#887" },
+          keyword: { stroke: "#111" },
+          method: { stroke: "#C09", weight: "bold" },
+          # :class => {:stroke => "#0c4", :weight => "bold"},
+          # :module => {:stroke => "#050"},
+          # :punct => {:stroke => "#668", :weight => "bold"},
+          symbol: { stroke: "#C30" },
+          string: { stroke: "#C90" },
+          number: { stroke: "#396" },
+          regex: { stroke: "#000", fill: "#FFC" },
+          # :char => {:stroke => "#f07"},
+          attribute: { stroke: "#369" },
+          # :global => {:stroke => "#7FB" },
+          expr: { stroke: "#722" },
+          # :escape => {:stroke => "#277" }
+          ident: { stroke: "#994c99" },
+          constant: { stroke: "#630", weight: "bold" },
+          class: { stroke: "#630", weight: "bold" },
+          matching: { stroke: "#ff0", weight: "bold" },
       }
 
       def highlight(str, pos = nil, colors = COLORS)
@@ -43,13 +43,9 @@ class Shoes
         tokens.each do |token|
           res <<
             if colors[token.group]
-              # span(token, colors[token.group])
-              tmp = fg(token, colors[token.group][:stroke])
-              colors[token.group][:fill] ? bg(tmp, colors[token.group][:fill]) : tmp
+              span(token, colors[token.group])
             elsif colors[:any]
-              # span(token, colors[:any])
-              tmp = fg(token, colors[:any][:stroke])
-              colors[:any][:fill] ? bg(tmp, colors[:any][:fill]) : tmp
+              span(token, colors[:any])
             else
               token
             end
@@ -62,13 +58,9 @@ class Shoes
         token_index, matching_index = matching_token(tokens, pos)
 
         if token_index
-          # res[token_index] = span(tokens[token_index], colors[:matching])
-          tmp = fg(tokens[token_index], colors[:matching][:stroke])
-          res[token_index] = colors[:matching][:fill] ? bg(tmp, colors[:matching][:fill]) : tmp
+          res[token_index] = span(tokens[token_index], colors[:matching])
           if matching_index
-            # res[matching_index] = span(tokens[matching_index], colors[:matching])
-            tmp = fg(tokens[matching_index], colors[:matching][:stroke])
-            res[matching_index] = colors[:matching][:fill] ? bg(tmp, colors[:matching][:fill]) : tmp
+            res[matching_index] = span(tokens[matching_index], colors[:matching])
           end
         end
 
@@ -182,9 +174,9 @@ class Shoes
       end
 
       OPEN_BRACKETS = {
-        '{' => '}',
-        '(' => ')',
-        '[' => ']',
+          '{' => '}',
+          '(' => ')',
+          '[' => ']',
       }
 
       # close_bracket = {}
@@ -192,9 +184,9 @@ class Shoes
       # CLOSE_BRACKETS = opens_bracket
       # the following is more readable :)
       CLOSE_BRACKETS = {
-        '}' => '{',
-        ')' => '(',
-        ']' => '[',
+          '}' => '{',
+          ')' => '(',
+          ']' => '[',
       }
 
       BRACKETS = CLOSE_BRACKETS.keys + OPEN_BRACKETS.keys
